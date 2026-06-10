@@ -86,8 +86,8 @@ ROOT_DIR: Final[Path] = Path.cwd()
 DATA_DIR: Final[Path] = ROOT_DIR / "data"
 OUTPUT_DIR: Final[Path] = DATA_DIR / "output"
 
-OUTPUT_CSV: Final[Path] = OUTPUT_DIR / "consumed_sales.csv"
-OUTPUT_DB: Final[Path] = OUTPUT_DIR / "sales.duckdb"
+OUTPUT_CSV: Final[Path] = OUTPUT_DIR / "consumed_sales_miller.csv"
+OUTPUT_DB: Final[Path] = OUTPUT_DIR / "sales_miller.duckdb"
 
 REGIONS_CSV: Final[Path] = DATA_DIR / "regions.csv"
 PRODUCTS_CSV: Final[Path] = DATA_DIR / "products.csv"
@@ -332,8 +332,9 @@ def consume_messages(
         # NEW: Write the valid record to the DuckDB database
         # using the helper function.
         write_valid_record(OUTPUT_DB, enriched)
-        LOG.info("Wrote valid record to DuckDB:")
-        LOG.info(f"  order={enriched['order_id']}")
+        LOG.info(
+            f"Wrote valid record: order={enriched['order_id']}, to DuckDB database {OUTPUT_DB.name!r}"
+        )
 
         # Also update the CSV as usual.
         append_csv_row(
@@ -343,15 +344,19 @@ def consume_messages(
         )
 
         consumed_count += 1
-        LOG.info("MESSAGE ACCEPTED")
-        LOG.info(f"order={enriched['order_id']}")
-        LOG.info(f"total=${enriched['total']:.2f}")
-        LOG.info(f"consumed={consumed_count}")
-        LOG.info("RUNNING STATS")
-        LOG.info(f"total_sales=${stats.total:,.2f}")
-        LOG.info(f"average=${stats.mean:,.2f}")
-        LOG.info(f"min=${stats.minimum:,.2f}")
-        LOG.info(f"max=${stats.maximum:,.2f}")
+        LOG.info(
+            f"MESSAGE ACCEPTED | "
+            f"order={enriched['order_id']} | "
+            f"total=${enriched['total']:.2f} | "
+            f"consumed={consumed_count}"
+        )
+        LOG.info(
+            f"RUNNING STATS | "
+            f"total_sales=${stats.total:,.2f} | "
+            f"average=${stats.mean:,.2f} | "
+            f"min=${stats.minimum:,.2f} | "
+            f"max=${stats.maximum:,.2f}"
+        )
 
     return consumed_count, skipped_count
 
