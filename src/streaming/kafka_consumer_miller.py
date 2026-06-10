@@ -58,7 +58,7 @@ from dotenv import load_dotenv
 
 from streaming.core.utils import log_env_vars
 from streaming.data_engineering.derived_fields import enrich_message
-from streaming.data_validation.data_contract_case import (
+from streaming.data_validation.data_contract_miller import (
     CONSUMED_FIELDNAMES,
     SALES_REQUIRED_FIELDS,
     validate_required_fields,
@@ -268,6 +268,13 @@ def process_message(
         return None
 
     enriched = enrich_message(row, region_lookup)
+
+    # Drop the original is_online field since it's redundant now
+    enriched.pop("is_online", None)
+
+    LOG.info(f"channel={enriched['channel']}")
+    LOG.info(f"has_discount={enriched['has_discount']}")
+
     LOG.info(f"subtotal={enriched['subtotal']}")
     LOG.info(f"tax={enriched['tax_amount']}")
     LOG.info(f"total={enriched['total']}")
