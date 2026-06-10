@@ -231,6 +231,26 @@ to delete the topic and recreate it.
 
 </details>
 
+## Technical Modification
+
+The modification for this project is a collection of small changes.
+
+The original code can be found at src\streaming\kafka_consumer_case.py
+
+The new script is src\streaming\kafka_consumer_miller.py
+
+This new script houses a new topic as well as more messages.
+
+Originally three messages were produced and consumed, now it's at 10.
+
+Additionally, the logs for message consumption have been altered.
+
+The DuckDB log now states where the messages are saved too and
+certain logs have been grouped into one.
+
+For instance, there was an individual log for each order and total, it
+has now been changed to one log that contains these together.
+
 ## Notes
 
 - Use the **UP ARROW** and **DOWN ARROW** in the terminal to scroll through past commands.
