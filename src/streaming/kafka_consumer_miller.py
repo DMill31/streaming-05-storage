@@ -57,7 +57,7 @@ from datafun_toolkit.logger import get_logger, log_header, log_path
 from dotenv import load_dotenv
 
 from streaming.core.utils import log_env_vars
-from streaming.data_engineering.derived_fields import enrich_message
+from streaming.data_engineering.derived_fields_miller import enrich_message
 from streaming.data_validation.data_contract_miller import (
     CONSUMED_FIELDNAMES,
     SALES_REQUIRED_FIELDS,
@@ -268,9 +268,6 @@ def process_message(
         return None
 
     enriched = enrich_message(row, region_lookup)
-
-    # Drop the original is_online field since it's redundant now
-    enriched.pop("is_online", None)
 
     LOG.info(f"channel={enriched['channel']}")
     LOG.info(f"has_discount={enriched['has_discount']}")

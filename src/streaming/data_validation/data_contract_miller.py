@@ -50,12 +50,12 @@ SALES_REQUIRED_FIELDS: Final[list[str]] = [
     "product_id",
     "unit_price",
     "quantity",
-    "is_online",
     "customer_id",
     "payment_method",
 ]
 
 SALES_OPTIONAL_FIELDS: Final[list[str]] = [
+    "is_online",
     "is_new_customer",
     "device_type",
     "referral_source",
