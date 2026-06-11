@@ -59,7 +59,7 @@ The region_id field was used as the message key.
 
 The message fields were not altered by the producer.
 
-The consumer adds derived fields and segmentations to each message.
+The consumer adds derived fields and some segmentation to each message.
 
 ### Consumer Processing
 
